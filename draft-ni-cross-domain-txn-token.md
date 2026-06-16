@@ -44,7 +44,7 @@ informative:
   I-D.ietf-kiliram-agent-trust-auth-framework:
   I-D.ietf-oauth-transaction-tokens:
   I-D.ietf-oauth-identity-chaining:
-  
+
 ...
 
 --- abstract
