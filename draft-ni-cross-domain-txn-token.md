@@ -50,7 +50,7 @@ informative:
 ...
 
 --- abstract
-This document describes a mechanism for Cross-Domain Transaction Tokens, which enables the safe maintainment and propagation of user identity, workload identities and authorization context across multiple trust domains.
+This document describes a mechanism for Cross-Domain Transaction Tokens, which enables the safe maintenance and propagation of user identity, workload identities and authorization context across multiple trust domains.
 
 
 --- middle
