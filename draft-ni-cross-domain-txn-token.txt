@@ -343,9 +343,9 @@ Table of Contents
    and 2.3.3 of [I-D.ietf-oauth-identity-chaining] apply, with the
    following modifications:
 
-   *  The AS in trust domain I SHOULD transcribe the workflow-related
+   *  The AS in Trust Domain I SHOULD transcribe the workflow-related
       claims from the Txn-Token to the Txn-JAG's claims.  During this
-      transcription, The AS in trust domain I MAY add, remove or change
+      transcription, The AS in Trust Domain I MAY add, remove or change
       the claims.  See Claims Transcription (Section 4.3).
 
 4.1.2.  Cross-Domain Assertion
@@ -437,8 +437,8 @@ Table of Contents
 4.2.1.3.  Txn-JAG Transmission Methods
 
    When a Txn-JAG is presented directly to an endpoint, the workload
-   MUST include the Txn-JAG in an HTTP header named Txn-JAG.  This
-   dedicated header avoids ambiguity with the Authorization header,
+   MUST include the Txn-JAG in an dedicated HTTP header named Txn-JAG.
+   This dedicated header avoids ambiguity with the Authorization header,
    which is conventionally associated with access tokens per [RFC6750].
 
 4.2.2.  Token Exchange for Txn-Token
@@ -488,20 +488,21 @@ Table of Contents
 
    *  Preserving the txn claim.  The txn claim serves as the immutable
       unique identifier for the cross-domain transaction.  Both the AS
-      and TTS MUST NOT modify or regenerate the txn value during
-      transcription.  It MUST be copied from the subject_token to the
+      and TTS SHOULD NOT modify or regenerate the txn value during
+      transcription.  It SHOULD be copied from the subject_token to the
       issued token to ensure auditability and accountability across
-      different domains.
+      different domains.  To avoid collisions without a centralized
+      namespace, the txn value can be generated as a high-entropy string
+      or prefixed with a domain identifier.
 
-   *  Evolving the req_wl claim.  The req_wl MUST identify all the
-      sequent workloads that requested or exchanged tokens throughout
-      the cross-domain transaction.  Specifically, the AS in Trust
-      Domain I MUST add the identifier of Workload A to the req_wl in
-      the issued Txn-JAG.  The TTS in Trust Domain II MUST add the
-      identifier of Endpoint B to req_wl in the issued Txn-Token in
-      Trust Domain II.  This ensures that every point where claims may
-      change is recorded, providing a trail of how the claims reached
-      its current state.
+   *  Evolving the req_wl claim.  The req_wl SHOULD identify all the
+      workloads that requested or exchanged tokens throughout the cross-
+      domain transaction.  Specifically, the AS in Trust Domain I SHOULD
+      add the identifier of Workload A to the req_wl in the issued Txn-
+      JAG.  The TTS in Trust Domain II SHOULD add the identifier of
+      Endpoint B to req_wl in the issued Txn-Token in Trust Domain II.
+      This ensures that every point where claims may change is recorded,
+      providing a trail of how the claims reached its current state.
 
    *  Data Minimization.  The AS in Trust Domain I MAY apply security
       and privacy strategies to workflow-related claims when issuing the
@@ -703,8 +704,8 @@ A.2.1.  Txn-JAG Request and Response
    application/x-www-form-urlencoded
 
    grant_type=urn:ietf:params:oauth:grant-type:token-exchange
-   &resource=https://tts.domain2.example/token &subject_token=[Encoded
-   Txn-Token-I the same in Figure 4]
+   &resource=https://tts.domain2.example &subject_token=[Encoded Txn-
+   Token-I the same in Figure 4]
    &subject_token_type=urn:ietf:params:oauth:token-type:txn_token ```
    _Figure 11: Txn-JAG Request_
 
@@ -712,12 +713,11 @@ A.2.1.  Txn-JAG Request and Response
    the aud is set to the Domain II TTS.
 
    text { "iat": 1777724830, "exp": 1777728430, "aud":
-   "https://tts.domain2.example/token", "iss":
-   "https://as.domain1.example", "sub": "john_doe@a.org", "txn":
-   "97053963-771d-49cc-a4e3-20aad399c312", "req_wl":
-   "ey...[Encrypted_Path],workload_a", "scope": "trade.stocks", "tctx":
-   { "action": "BUY", "ticker": "MSFT", "quantity": "100" } }
-   _Figure 12: Txn-JAG Payload_
+   "https://tts.domain2.example", "iss": "https://as.domain1.example",
+   "sub": "john_doe@a.org", "txn": "97053963-771d-49cc-
+   a4e3-20aad399c312", "req_wl": "ey...[Encrypted_Path],workload_a",
+   "scope": "trade.stocks", "tctx": { "action": "BUY", "ticker": "MSFT",
+   "quantity": "100" } } _Figure 12: Txn-JAG Payload_
 
    As defined in Section 4.3, the AS in Trust Domain I applies an
    encryption strategy to the req_wl claim.  The internal path preceding
