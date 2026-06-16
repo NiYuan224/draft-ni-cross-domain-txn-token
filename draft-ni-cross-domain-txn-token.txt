@@ -111,9 +111,30 @@ Table of Contents
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
+
+   This document uses the terms "Workload", "Trust Domain", "External
+   Endpoint", "Call Chain", and "Transaction Token Service" defined by
+   [I-D.ietf-oauth-transaction-tokens], as well as "Authorization
+   Server" (AS) defined by [RFC6749].  Moreover, the following terms are
+   extended or defined in this document.
+
+   *  Intra-domain Transaction Token (Txn-Token).  A short-lived, signed
+      JWT that provides immutable information about the user, workloads,
+      and specific contextual attributes of the call within a trust
+      domain, as defined in [I-D.ietf-oauth-transaction-tokens].
+
+   *  Cross-domain Transaction Token.  A txn-token that preserves and
+      propagates workflow-related claims from an upstream trust domain
+      to a downstream one via identity chaining as defined in
+      [I-D.ietf-oauth-identity-chaining].
+
+   *  Transaction JWT Authorization Grant (Txn-JAG).  A specialized JWT
+      acting as an OAuth 2.0 authorization grant as defined in
+      [RFC7523].  It carries the workflow-related claims, ensuring the
+      integrity and auditability of the cross-domain call chain.
 
 3.  Security Considerations
 
