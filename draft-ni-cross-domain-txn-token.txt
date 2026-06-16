@@ -68,6 +68,7 @@ Table of Contents
    2.  Conventions and Definitions
    3.  Workflows of Cross-Domain Transaction Token
      3.1.  Mode A: Indirect Txn-Token Exchange
+     3.2.  Mode B: Direct Txn-Token Exchange
    4.  Security Considerations
    5.  IANA Considerations
    6.  References
@@ -82,11 +83,11 @@ Table of Contents
    service interactions frequently cross domain boundaries and involve
    multiple service operators (e.g., enterprises, cloud providers, SaaS
    platforms, etc.).  As illustrated in
-   [I-D.ietf-kiliram-agent-trust-auth-framework], workflows spanning
-   multiple domains require workloads within each domain to perform
-   subtasks and pass results to cooperatively accomplish an overall
-   task.  Moreover, to ensure end-to-end accountability, the entities
-   and actions must remain auditable throughout the entire call chain.
+   [I-D.kiliram-agent-trust-auth-framework], workflows spanning multiple
+   domains require workloads within each domain to perform subtasks and
+   pass results to cooperatively accomplish an overall task.  Moreover,
+   to ensure end-to-end accountability, the entities and actions must
+   remain auditable throughout the entire call chain.
 
    This requires the secure preservation and propagation of user
    identity, workload identities and authorization context across
@@ -118,17 +119,17 @@ Table of Contents
    capitals, as shown here.
 
    This document uses the terms "Workload", "Trust Domain", "External
-   Endpoint", "Call Chain", and "Transaction Token Service" defined by
-   [I-D.ietf-oauth-transaction-tokens], as well as "Authorization
-   Server" (AS) defined by [RFC6749].  Moreover, the following terms are
-   extended or defined in this document.
+   Endpoint", "Call Chain", and "Transaction Token Service" (TTS)
+   defined by [I-D.ietf-oauth-transaction-tokens], as well as
+   "Authorization Server" (AS) defined by [RFC6749].  Moreover, the
+   following terms are extended or defined in this document.
 
    *  Intra-domain Transaction Token (Txn-Token).  A short-lived, signed
       JWT that provides immutable information about the user, workloads,
       and specific contextual attributes of the call within a trust
       domain, as defined in [I-D.ietf-oauth-transaction-tokens].
 
-   *  Cross-domain Transaction Token.  A txn-token that preserves and
+   *  Cross-domain Transaction Token.  A Txn-Token that preserves and
       propagates workflow-related claims from an upstream trust domain
       to a downstream one via identity chaining as defined in
       [I-D.ietf-oauth-identity-chaining].
@@ -174,36 +175,35 @@ Table of Contents
    [I-D.ietf-oauth-identity-chaining].  The workflow is illustrated in
    Figure 1.
 
- +--------------+  +--------------+  +--------------+  +--------------+  +--------------+
- | Workload A   |  | AS Domain I  |  | AS Domain II |  | Endpoint B   |  | TTS Domain II|
- | Trust Domain |  | Trust Domain |  | Trust Domain |  | Trust Domain |  | Trust Domain |
- |     I        |  |     I        |  |     II       |  |     II       |  |     II       |
- +--------------+  +--------------+  +--------------+  +--------------+  +--------------+
-       |                 |                 |                 |                 |
-       | (1) Token Exchange Request        |                 |                 |
-       |---------------->|                 |                 |                 |
-       | <Txn-Token I>   |                 |                 |                 |
-       |                 |                 |                 |                 |
-       | (2) Token Exchange Response       |                 |                 |
-       |<----------------|                 |                 |                 |
-       |     <Txn-JAG>   |                 |                 |                 |
-       |                 |                 |                 |                 |
-       | (3) present Txn-JAG               |                 |                 |
-       |---------------------------------->|                 |                 |
-       |                 |                 |                 |                 |
-       | (4) <Access Token>                |                 |                 |
-       |<----------------------------------|                 |                 |
-       |                 |                 |                 |                 |
-       | (5) Invoke with Access Token                        |                 |
-       |---------------------------------------------------->|                 |
-       |                 |                 |                 |                 |
-       |                 |                 |                 | (6) Txn-Token Request
-       |                 |                 |                 |---------------->|
-       |                 |                 |                 |  <Access Token> |
-       |                 |                 |                 |                 |
-       |                 |                 |                 | (7) Txn-Token Response
-       |                 |                 |                 |<----------------|
-       |                 |                 |                 | <Txn-Token II>  |
+   +----------+ +--------+ +---------+ +----------+ +---------+
+   |Workload A| |   AS   | |    AS   | |Endpoint B| |   TTS   |
+   |Domain I  | |Domain I| |Domain II| |Domain II | |Domain II|
+   +----------+ +--------+ +---------+ +----------+ +---------+
+    |                 |          |      |                 |
+    |(1)Token Exchange Request   |      |                 |
+    |---------------->|          |      |                 |
+    | <Txn-Token I>   |          |      |                 |
+    |                 |          |      |                 |
+    |(2)Token Exchange Response  |      |                 |
+    |<----------------|          |      |                 |
+    |     <Txn-JAG>   |          |      |                 |
+    |                 |          |      |                 |
+    |(3)Present Txn-JAG          |      |                 |
+    |--------------------------->|      |                 |
+    |                 |          |      |                 |
+    |(4)<Access Token>           |      |                 |
+    |<---------------------------|      |                 |
+    |                 |          |      |                 |
+    |(5)Invoke with Access Token |      |                 |
+    |----------------------------|----->|                 |
+    |                 |          |      |                 |
+    |                 |          |      |(6)Txn-Token Request
+    |                 |          |      |---------------->|
+    |                 |          |      | <Access Token>  |
+    |                 |          |      |                 |
+    |                 |          |      |(7)Txn-Token Response
+    |                 |          |      |<----------------|
+    |                 |          |      | <Txn-Token II>  |
 
    _Figure 1: Indirect Txn-Token Exchange_
 
@@ -235,6 +235,51 @@ Table of Contents
    (7) The TTS of Trust Domain II mints a local Txn-Token, transcribing
    the workflow-related claims from the access token into the new Txn-
    Token.  See Section 4.3.2 for the response format.
+
+3.2.  Mode B: Direct Txn-Token Exchange
+
+   This mode reduces round trips by allowing the TTS in Trust Domain II
+   to accept the Txn-JAG directly as the subject token in a Txn-Token
+   request.  This requires a pre-established trust relationship between
+   the AS in Trust Domain I and the TTS in Trust Domain II.  The
+   workflow is illustrated in Figure 2.
+
+   +----------+   +--------+ +----------+     +---------+
+   |Workload A|   |   AS   | |Endpoint B|     |   TTS   |
+   | Domain I |   |Domain I| |Domain II |     |Domain II|
+   +----------+   +--------+ +----------+     +---------+
+        |                 |        |                 |
+        |(1)Token Exchange Request |                 |
+        |---------------->|        |                 |
+        |<Txn-Token I>    |        |                 |
+        |                 |        |                 |
+        |(2)Token Exchange Response|                 |
+        |<----------------|        |                 |
+        |<Txn-JAG>        |        |                 |
+        |                 |        |                 |
+        |(3)Present Txn-JAG        |                 |
+        |------------------------->|                 |
+        |                 |        |                 |
+        |                 |        |(4)Txn-Token Request
+        |                 |        |---------------->|
+        |                 |        | <Txn-JAG>       |
+        |                 |        |(5)Txn-Token Response
+        |                 |        |<----------------|
+        |                 |        | <Txn-Token II>  |
+
+   _Figure 2: Direct Txn-Token Exchange_
+
+   Steps (1) and (2) are the same as those in Mode A.
+
+   (3) Workload A in Trust Domain I presents the Txn-JAG to Endpoint B
+   of Trust Domain II.  See Section 4.5 for the transmission method.
+
+   (4) Endpoint B uses Txn-JAG as the subject token to exchange for a
+   local Txn-Token at its local TTS.
+
+   (5) The TTS of Trust Domain II mints a local Txn-Token, transcribing
+   the workflow-related context from the Txn-JAG into the local Txn-
+   Token's claims.
 
 4.  Security Considerations
 
@@ -268,9 +313,6 @@ Table of Contents
 
 6.2.  Informative References
 
-   [I-D.ietf-kiliram-agent-trust-auth-framework]
-              "*** BROKEN REFERENCE ***".
-
    [I-D.ietf-oauth-identity-chaining]
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
@@ -285,6 +327,14 @@ Table of Contents
               draft-ietf-oauth-transaction-tokens-08, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
               transaction-tokens-08>.
+
+   [I-D.kiliram-agent-trust-auth-framework]
+              King, D., Ramdhany, R., and P. C. Liu, "A Trust and
+              Authentication Framework for Cross-Domain Agent-to-Agent
+              Communications", Work in Progress, Internet-Draft, draft-
+              kiliram-agent-trust-auth-framework-00, 15 March 2026,
+              <https://datatracker.ietf.org/doc/html/draft-kiliram-
+              agent-trust-auth-framework-00>.
 
 Acknowledgments
 
