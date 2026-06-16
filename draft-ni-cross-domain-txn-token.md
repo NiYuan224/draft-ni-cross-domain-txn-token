@@ -252,7 +252,7 @@ The processing rules and response formats defined in Sections 12.3 and 12.4 of {
 
 ## Mode B: Direct Txn-Token Exchange
 
-This section defines the requests and responses for Mode B as described in Section 3.2. 
+This section defines the requests and responses for Mode B as described in Section 3.2.
 
 ### Token Exchange for Txn-JAG
 Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I to obtain a Txn-JAG that can be used with the TTS in Trust Domain II.
@@ -272,7 +272,7 @@ The processing rules and response format are identical to those described in Sec
 
 #### Txn-JAG Transmission Methods
 
-When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in an HTTP header named Txn-JAG (i.e., Txn-JAG: <Txn-JAG>). This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
+When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in an HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
 
 
 
