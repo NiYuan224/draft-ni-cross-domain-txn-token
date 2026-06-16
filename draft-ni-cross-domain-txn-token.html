@@ -1180,6 +1180,17 @@ svg {
 </li>
                 </ul>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-mode-b-direct-txn-token-exch" class="internal xref">Mode B: Direct Txn-Token Exchange</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-token-exchange-for-txn-jag-2" class="internal xref">Token Exchange for Txn-JAG</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-token-exchange-for-txn-token" class="internal xref">Token Exchange for Txn-Token</a></p>
+</li>
+                </ul>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
@@ -1466,6 +1477,80 @@ platforms, etc.). As illustrated in <span>[<a href="#I-D.kiliram-agent-trust-aut
 </div>
 </section>
 </div>
+<div id="mode-b-direct-txn-token-exchange-1">
+<section id="section-4.2">
+        <h3 id="name-mode-b-direct-txn-token-exch">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-mode-b-direct-txn-token-exch" class="section-name selfRef">Mode B: Direct Txn-Token Exchange</a>
+        </h3>
+<p id="section-4.2-1">This section defines the requests and responses for Mode B as described in Section 3.2.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<div id="token-exchange-for-txn-jag-1">
+<section id="section-4.2.1">
+          <h4 id="name-token-exchange-for-txn-jag-2">
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-token-exchange-for-txn-jag-2" class="section-name selfRef">Token Exchange for Txn-JAG</a>
+          </h4>
+<p id="section-4.2.1-1">Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I to obtain a Txn-JAG that can be used with the TTS in Trust Domain II.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<div id="txn-jag-request-1">
+<section id="section-4.2.1.1">
+            <h5 id="name-txn-jag-request-2">
+<a href="#section-4.2.1.1" class="section-number selfRef">4.2.1.1. </a><a href="#name-txn-jag-request-2" class="section-name selfRef">Txn-JAG Request</a>
+            </h5>
+<p id="section-4.2.1.1-1">The request follows the same format as defined in Section 4.1.1.1, except for the resource or audience claim:<a href="#section-4.2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.1.1-2"><strong>resource</strong>
+              <strong>REQUIRED.</strong> if audience is not set. It MUST be the URI of the TTS in Trust Domain II.<a href="#section-4.2.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.1.1-3"><strong>audience</strong>
+              <strong>REQUIRED.</strong> if resource is not set. It MUST be the well-known/logical name of the TTS in Trust Domain II.<a href="#section-4.2.1.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="txn-jag-response-1">
+<section id="section-4.2.1.2">
+            <h5 id="name-txn-jag-response-2">
+<a href="#section-4.2.1.2" class="section-number selfRef">4.2.1.2. </a><a href="#name-txn-jag-response-2" class="section-name selfRef">Txn-JAG Response</a>
+            </h5>
+<p id="section-4.2.1.2-1">The processing rules and response format are identical to those described in Section 4.1.1.2, with the exception that the aud claim in the issued Txn-JAG MUST identify the TTS of Trust Domain II.<a href="#section-4.2.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="txn-jag-transmission-methods">
+<section id="section-4.2.1.3">
+            <h5 id="name-txn-jag-transmission-method">
+<a href="#section-4.2.1.3" class="section-number selfRef">4.2.1.3. </a><a href="#name-txn-jag-transmission-method" class="section-name selfRef">Txn-JAG Transmission Methods</a>
+            </h5>
+<p id="section-4.2.1.3-1">When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in an HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span>.<a href="#section-4.2.1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="token-exchange-for-txn-token-1">
+<section id="section-4.2.2">
+          <h4 id="name-token-exchange-for-txn-token">
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-token-exchange-for-txn-token" class="section-name selfRef">Token Exchange for Txn-Token</a>
+          </h4>
+<p id="section-4.2.2-1">Endpoint B performs a token exchange with the TTS in Trust Domain II to obtain a local Txn-Token in Trust Domain II, using the Txn-JAG as the subject_token.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<div id="txn-token-request-1">
+<section id="section-4.2.2.1">
+            <h5 id="name-txn-token-request-2">
+<a href="#section-4.2.2.1" class="section-number selfRef">4.2.2.1. </a><a href="#name-txn-token-request-2" class="section-name selfRef">Txn-Token Request</a>
+            </h5>
+<p id="section-4.2.2.1-1">The parameters for the Txn-Token request follow the definitions in section 12.1 of <span>[<a href="#I-D.ietf-oauth-transaction-tokens" class="cite xref">I-D.ietf-oauth-transaction-tokens</a>]</span>. The following requirements apply:<a href="#section-4.2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2.1-2"><strong>subject_token</strong>
+              <strong>REQUIRED.</strong> MUST be the Txn-JAG issued by the AS in Trust Domain I, as obtained in Section 4.2.1 and presented to Endpoint B via the method in Section 4.2.1.3.<a href="#section-4.2.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.2.1-3"><strong>subject_token_type</strong>
+              <strong>REQUIRED.</strong>  MUST be urn:ietf:params:oauth:token-type:jwt-bearer.<a href="#section-4.2.2.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="txn-token-response-1">
+<section id="section-4.2.2.2">
+            <h5 id="name-txn-token-response-2">
+<a href="#section-4.2.2.2" class="section-number selfRef">4.2.2.2. </a><a href="#name-txn-token-response-2" class="section-name selfRef">Txn-Token Response</a>
+            </h5>
+<p id="section-4.2.2.2-1">The processing rules and response format are identical to those described in Section 4.1.3.1, with the following modification for subject token validation:<a href="#section-4.2.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2.2-2">For subject token validation, the TTS in Trust Domain II MUST validate the Txn-JAG issued by the AS in Trust Domain I. This requires a pre-established trust relationship between the AS in Trust Domain I and the TTS in Trust Domain II. Such a trust relationship typically manifests as the exchange of key material.<a href="#section-4.2.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.2.2-3">The transcription of workflow-related claims from the subject token (the Txn-JAG) to the issued Txn-Token follows the same rules defined in Section 4.3.<a href="#section-4.2.2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="security-considerations">
@@ -1502,6 +1587,10 @@ platforms, etc.). As illustrated in <span>[<a href="#I-D.kiliram-agent-trust-aut
 <dt id="RFC6749">[RFC6749]</dt>
         <dd>
 <span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6750">[RFC6750]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span> and <span class="refAuthor">D. Hardt</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework: Bearer Token Usage"</span>, <span class="seriesInfo">RFC 6750</span>, <span class="seriesInfo">DOI 10.17487/RFC6750</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6750">https://www.rfc-editor.org/rfc/rfc6750</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7523">[RFC7523]</dt>
         <dd>
