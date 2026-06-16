@@ -211,7 +211,7 @@ The parameters for the Txn-JAG request build upon the definitions in Section 2.3
 #### Txn-JAG Response
 The processing rules and response format defined in Sections 2.3.2 and 2.3.3 of {{?I-D.ietf-oauth-identity-chaining}} apply, with the following modifications:
 
-* The AS in trust domain I SHOULD transcribe the workflow-related claims from the Txn-Token to the Txn-JAG's claims. During this transcription, The AS in trust domain I MAY add, remove or change the claims. See Claims Transcription (Section 4.3).
+* The AS in Trust Domain I SHOULD transcribe the workflow-related claims from the Txn-Token to the Txn-JAG's claims. During this transcription, The AS in Trust Domain I MAY add, remove or change the claims. See Claims Transcription (Section 4.3).
 
 ### Cross-Domain Assertion
 
@@ -273,7 +273,7 @@ The processing rules and response format are identical to those described in Sec
 
 #### Txn-JAG Transmission Methods
 
-When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in an HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
+When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in an dedicated HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
 
 
 
@@ -301,9 +301,9 @@ The transcription of workflow-related claims from the subject token (the Txn-JAG
 Claims transcription across trust domains SHOULD ensure that the workflow-related claims are preserved for auditability and accountability. This builds upon the principles defined in Section 2.5 of {{?I-D.ietf-oauth-identity-chaining}}. Specific transcription rules for workflow-related claims are defined as follows:
 
 
-* Preserving the txn claim. The txn claim serves as the immutable unique identifier for the cross-domain transaction. Both the AS and TTS MUST NOT modify or regenerate the txn value during transcription. It MUST be copied from the subject_token to the issued token to ensure auditability and accountability across different domains.
+* Preserving the txn claim. The txn claim serves as the immutable unique identifier for the cross-domain transaction. Both the AS and TTS SHOULD NOT modify or regenerate the txn value during transcription. It SHOULD be copied from the subject_token to the issued token to ensure auditability and accountability across different domains. To avoid collisions without a centralized namespace, the txn value can be generated as a high-entropy string or prefixed with a domain identifier.
 
-* Evolving the req_wl claim. The req_wl MUST identify all the sequent workloads that requested or exchanged tokens throughout the cross-domain transaction. Specifically, the AS in Trust Domain I MUST add the identifier of Workload A to the req_wl in the issued Txn-JAG. The TTS in Trust Domain II MUST add the identifier of Endpoint B to req_wl in the issued Txn-Token in Trust Domain II. This ensures that every point where claims may change is recorded, providing a trail of how the claims reached its current state.
+* Evolving the req_wl claim. The req_wl SHOULD identify all the workloads that requested or exchanged tokens throughout the cross-domain transaction. Specifically, the AS in Trust Domain I SHOULD add the identifier of Workload A to the req_wl in the issued Txn-JAG. The TTS in Trust Domain II SHOULD add the identifier of Endpoint B to req_wl in the issued Txn-Token in Trust Domain II. This ensures that every point where claims may change is recorded, providing a trail of how the claims reached its current state.
 
 * Data Minimization. The AS in Trust Domain I MAY apply security and privacy strategies to workflow-related claims when issuing the Txn-JAG. Such measures include but not limited to Removal and Encryption.
 
@@ -502,7 +502,7 @@ Host: as.domain1.example
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=urn:ietf:params:oauth:grant-type:token-exchange
-&resource=https://tts.domain2.example/token
+&resource=https://tts.domain2.example
 &subject_token=[Encoded Txn-Token-I the same in Figure 4]
 &subject_token_type=urn:ietf:params:oauth:token-type:txn_token
 ```
@@ -514,7 +514,7 @@ The AS in Domain I transcribes the claims. In the issued Txn-JAG, the aud is set
 {
   "iat": 1777724830,
   "exp": 1777728430,
-  "aud": "https://tts.domain2.example/token",
+  "aud": "https://tts.domain2.example",
   "iss": "https://as.domain1.example",
   "sub": "john_doe@a.org",
   "txn": "97053963-771d-49cc-a4e3-20aad399c312",
