@@ -41,7 +41,7 @@ normative:
   RFC7523:
 
 informative:
-  I-D.ietf-kiliram-agent-trust-auth-framework:
+  I-D.kiliram-agent-trust-auth-framework:
   I-D.ietf-oauth-transaction-tokens:
   I-D.ietf-oauth-identity-chaining:
 
@@ -56,7 +56,7 @@ This document describes a mechanism for Cross-Domain Transaction Tokens, which e
 # Introduction
 
 Due to the rise of collaboration service ecosystems and AI Agents, service interactions frequently cross domain boundaries and involve multiple service operators (e.g., enterprises, cloud providers, SaaS
-platforms, etc.). As illustrated in {{?I-D.ietf-kiliram-agent-trust-auth-framework}}, workflows spanning multiple domains require workloads within each domain to perform subtasks and pass results to cooperatively accomplish an overall task. Moreover, to ensure end-to-end accountability, the entities and actions must remain auditable throughout the entire call chain.
+platforms, etc.). As illustrated in {{?I-D.kiliram-agent-trust-auth-framework}}, workflows spanning multiple domains require workloads within each domain to perform subtasks and pass results to cooperatively accomplish an overall task. Moreover, to ensure end-to-end accountability, the entities and actions must remain auditable throughout the entire call chain.
 
 This requires the secure preservation and propagation of user identity, workload identities and authorization context across different domains.
 
@@ -121,7 +121,8 @@ This mode follows the classic identity chaining workflow {{?I-D.ietf-oauth-ident
  |                 |          |      |(7)Txn-Token Response
  |                 |          |      |<----------------|
  |                 |          |      | <Txn-Token II>  |
- ~~~
+
+~~~
 
 *Figure 1: Indirect Txn-Token Exchange*
 
@@ -166,6 +167,7 @@ This mode reduces round trips by allowing the TTS in Trust Domain II to accept t
      |                 |        |(5)Txn-Token Response
      |                 |        |<----------------|
      |                 |        | <Txn-Token II>  |
+
 ~~~
 
 *Figure 2: Direct Txn-Token Exchange*
