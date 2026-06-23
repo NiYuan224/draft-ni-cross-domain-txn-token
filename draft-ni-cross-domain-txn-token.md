@@ -145,7 +145,7 @@ This mode follows the classic identity chaining workflow {{?I-D.ietf-oauth-ident
 ## Mode B: Direct Txn-Token Exchange
 While Mode A provides a straightforward integration of Identity Chaining with Transaction Tokens, it introduces multiple cross-domain round trips that can significantly increase latency. As illustrated in Figure 1, steps (3) through (5) require at least three cross-domain round-trips: presenting the Txn-JAG to the downstream AS to obtain an access token, invoking the target endpoint with that token, and subsequently exchanging it for a local Txn-Token. In distributed and high-throughput environments, this operational overhead can become prohibitive.
 
-An opportunity for optimization arises from the flexibility defined in Section 5.1 of the Transaction Token{{?I-D.ietf-oauth-transaction-tokens}}, which allows the subject_token to be "any other format understood by the TTS". This enables a TTS to directly accept a Txn-JAG issued by the upstream AS as the subject token in a Txn-Token request.
+An opportunity for optimization arises from the flexibility defined in Section 5.1 of the Transaction Token{{?I-D.ietf-oauth-transaction-tokens}}, which allows the subject_token to be "any other format that is understood by the TTS". This enables a TTS to directly accept a Txn-JAG issued by the upstream AS as the subject token in a Txn-Token request.
 
 Thus, Mode B reduces cross-domain round trips from three to one by allowing the TTS in Trust Domain II to accept the Txn-JAG directly as the subject token in a Txn-Token request. This requires a pre-established trust relationship between the AS in Trust Domain I and the TTS in Trust Domain II. The workflow is illustrated in Figure 2.
 
