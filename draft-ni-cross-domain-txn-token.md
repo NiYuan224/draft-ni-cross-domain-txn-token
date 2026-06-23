@@ -16,7 +16,7 @@ keyword:
   - Cross-Domain
 
 venue:
-#  group: WG
+#  group: OAuth
 #  type: Working Group
 #  mail: WG@example.com
 #  arch: https://example.com/WG
@@ -50,7 +50,7 @@ informative:
 ...
 
 --- abstract
-This document describes a mechanism for Cross-Domain Transaction Tokens, which enables the safe maintenance and propagation of user identity, workload identities and authorization context across multiple trust domains.
+This document describes a mechanism for Cross-Domain Transaction Tokens, which enables the safe maintenance and propagation of user identity, workload identities, and authorization context across multiple trust domains.
 
 
 --- middle
@@ -211,7 +211,7 @@ The parameters for the Txn-JAG request build upon the definitions in Section 2.3
 #### Txn-JAG Response
 The processing rules and response format defined in Sections 2.3.2 and 2.3.3 of {{?I-D.ietf-oauth-identity-chaining}} apply, with the following modifications:
 
-* The AS in Trust Domain I SHOULD transcribe the workflow-related claims from the Txn-Token to the Txn-JAG's claims. During this transcription, The AS in Trust Domain I MAY add, remove or change the claims. See Claims Transcription (Section 4.3).
+* The AS in Trust Domain I SHOULD transcribe the workflow-related claims from the Txn-Token to the Txn-JAG's claims. During this transcription, The AS in Trust Domain I MAY add, remove, or change the claims. See Claims Transcription (Section 4.3).
 
 ### Cross-Domain Assertion
 
@@ -249,7 +249,7 @@ The processing rules and response formats defined in Sections 12.3 and 12.4 of {
 
 * For subject token validation, the TTS in Trust Domain II MUST validate the access token issued by its local AS.
 
-* The TTS in trust domain II SHOULD transcribe the workflow-related claims from the subject token to the claims of issued Txn Token.  See Claims Transcription (Section 4.3).
+* The TTS in trust domain II SHOULD transcribe the workflow-related claims from the subject token to the claims of the issued Txn-Token.  See Claims Transcription (Section 4.3).
 
 ## Mode B: Direct Txn-Token Exchange
 
@@ -273,7 +273,7 @@ The processing rules and response format are identical to those described in Sec
 
 #### Txn-JAG Transmission Methods
 
-When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in an dedicated HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
+When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in a dedicated HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
 
 
 
@@ -488,7 +488,7 @@ Upon receiving the access token, Workload A in Trust Domain II exchanges it for 
 ```
 *Figure 10: Txn-Token-II Payload*
 
-As can been seen from Fugure 10, the TTS preserves the txn claim verbatim and evolves the req_wl claim, appending the identifier of Endpoint B.
+As can be seen from Figure 10, the TTS preserves the txn claim verbatim and evolves the req_wl claim, appending the identifier of Endpoint B.
 
 ## Example Mode B: Direct Txn-Token Exchange
 
