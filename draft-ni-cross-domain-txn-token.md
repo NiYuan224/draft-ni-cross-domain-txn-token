@@ -57,14 +57,14 @@ This document describes a mechanism for Cross-Domain Transaction Tokens, which e
 
 # Introduction
 
-Due to the rise of collaboration service ecosystems and AI agents, service interactions frequently cross domain boundaries and involve multiple service operators (e.g., enterprises, cloud providers, SaaS
+Due to the rise of collaborative service ecosystems and AI agents, services frequently interact across domain boundaries and involve multiple service operators (e.g., enterprises, cloud providers, SaaS
 platforms, etc.). As illustrated in {{?I-D.kiliram-agent-trust-auth-framework}}, workflows spanning multiple domains require workloads within each domain to perform subtasks and pass results to cooperatively accomplish an overall task. Moreover, to ensure end-to-end accountability, the entities and actions must remain auditable throughout the entire call chain.
 
 This requires the secure preservation and propagation of user identity, workload identities and authorization context across different domains.
 
-Transaction Token (Txn-Token) {{?I-D.ietf-oauth-transaction-tokens}} defines a short-lived, signed JWT that preserves immutable user identity, workload identity, and authorization context within a single trust domain's call chain. While this mechanism effectively preserves context, its applicability is currently limited to intra-domain call chains. Conversely, Identity Chaining {{?I-D.ietf-oauth-identity-chaining}} provides a framework for cross-domain delegation but does not specify how to leverage the rich, structured context carried by Txn-Tokens (i.e., the claims of txn, tctx, rctx, and req_wl in {{?I-D.ietf-oauth-transaction-tokens}}) .
+Transaction Token (Txn-Token) {{?I-D.ietf-oauth-transaction-tokens}} defines a short-lived, signed JWT that preserves immutable user identity, workload identity, and authorization context within a single trust domain's call chain. While this mechanism effectively preserves context, its applicability is currently limited to single-domain call chains. Conversely, Identity Chaining {{?I-D.ietf-oauth-identity-chaining}} provides a framework for cross-domain delegation but does not specify how to leverage the rich, structured context carried by Txn-Tokens (i.e., the claims of `txn`, `tctx`, `rctx`, and `req_wl` in {{?I-D.ietf-oauth-transaction-tokens}}) .
 
-This document bridges this gap by defining a mechanism to use a Txn-Token as the input of Identity Chaining. This approach enables the propagation of workflow-related claims, i.e., claims of txn, tctx, rctx, and req_wl, across multiple trust domains, ensuring the integrity and auditability of the entire call chain.
+This document bridges this gap by defining a mechanism to use a Txn-Token (from domain I) as the input of Identity Chaining, in order to create another Txn-Token at the other domain II. This approach enables the propagation of workflow-related claims, i.e., claims of `txn`, `tctx`, `rctx`, and `req_wl`, across multiple trust domains, ensuring the integrity and auditability of the entire call chain.
 
 
 # Conventions and Definitions
@@ -73,15 +73,17 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This document uses the terms "Workload", "Trust Domain", "External Endpoint", "Call Chain", and "Transaction Token Service" (TTS) defined by {{?I-D.ietf-oauth-transaction-tokens}}, as well as "Authorization Server" (AS) defined by {{RFC6749}}. Moreover, the following terms are extended or defined in this document.
 
-* Intra-domain Transaction Token. A short-lived, signed JWT that provides immutable information about the user, workloads, and specific contextual attributes of the call within a trust domain, as defined in {{?I-D.ietf-oauth-transaction-tokens}}.
+* Single-domain Transaction Token. A short-lived, signed JWT that provides immutable information about the user, workloads, and specific contextual attributes of the call within a trust domain, as defined in {{?I-D.ietf-oauth-transaction-tokens}}.
 
-* Cross-domain Transaction Token. A Txn-Token that preserves and propagates workflow-related claims from an upstream trust domain to a downstream one via identity chaining as defined in {{?I-D.ietf-oauth-identity-chaining}}.
+* Cross-domain Transaction Token. A Txn-Token that preserves and propagates workflow-related claims from an upstream trust domain to a downstream domain via identity chaining as defined in {{?I-D.ietf-oauth-identity-chaining}}.
 
-* Transaction JWT Authorization Grant (Txn-JAG). A specialized JWT acting as an OAuth 2.0 authorization grant as defined in {{RFC7523}}. It carries the workflow-related claims, ensuring the integrity and auditability of the cross-domain call chain.
+* Transaction JWT Authorization Grant (Txn-JAG). A newly defined, specialized JWT acting as an OAuth 2.0 authorization grant (as defined in {{RFC7523}}), which carries the workflow-related claims, ensuring the integrity and auditability of the cross-domain call chain.
+
+* Workflow-related Claims: `txn`, `tctx`, `rctx`, and `req_wl` claims, as defined in {{?I-D.ietf-oauth-transaction-tokens}}.
 
 # Workflows of Cross-Domain Transaction Token
 
-By combining Identity Chaining {{?I-D.ietf-oauth-identity-chaining}} and Transaction Token {{?I-D.ietf-oauth-transaction-tokens}}, this section describes two workflow modes to securely preserve and propagate workflow-related claims across different trust domains. Both modes utilize the Txn-JAG as the secure carrier between domains but differ in how the downstream domain processes it.
+By combining Identity Chaining {{?I-D.ietf-oauth-identity-chaining}} and Transaction Token {{?I-D.ietf-oauth-transaction-tokens}}, this section describes two workflow modes to securely preserve and propagate workflow-related claims across different trust domains. Both modes utilize the newly defined Txn-JAG as the secure carrier between domains but differ in how the downstream domain processes it.
 
 * Mode A: Indirect Txn-Token Exchange via Intermediate Access Token. Workload A in Trust Domain I first exchanges its local Txn-Token with its own AS for a Txn-JAG that targets the AS in Trust Domain II. Then, Workload A presents that Txn-JAG to the AS in Trust Domain II to obtain an access token, and uses the access token to invoke Endpoint B in Trust Domain II. Finally, Endpoint B exchanges the access token with the local TTS to acquire a new Txn-Token in Trust Domain II.
 
@@ -143,7 +145,7 @@ This mode follows the classic identity chaining workflow {{?I-D.ietf-oauth-ident
 (7) The TTS of Trust Domain II mints a local Txn-Token, transcribing the workflow-related claims from the access token into the new Txn-Token. See Section 4.3.2 for the response format.
 
 ## Mode B: Direct Txn-Token Exchange
-While Mode A provides a straightforward integration of Identity Chaining with Transaction Tokens, it introduces multiple cross-domain round trips that can significantly increase latency. As illustrated in Figure 1, steps (3) through (5) require at least three cross-domain round-trips: presenting the Txn-JAG to the downstream AS to obtain an access token, invoking the target endpoint with that token, and subsequently exchanging it for a local Txn-Token. In distributed and high-throughput environments, this operational overhead can become prohibitive.
+While Mode A provides a straightforward integration of Identity Chaining procedures with Transaction Tokens procedures, which does not create protocol-level changes, it introduces multiple cross-domain round trips that can significantly increase latency. As illustrated in Figure 1, steps (3) through (5) require at least three cross-domain round-trips: presenting the Txn-JAG to the downstream AS to obtain an access token, invoking the target endpoint with that token, and subsequently exchanging it for a local Txn-Token. In distributed and high-throughput environments, this operational overhead can become prohibitive.
 
 An opportunity for optimization arises from the flexibility defined in Section 5.1 of the Transaction Token{{?I-D.ietf-oauth-transaction-tokens}}, which allows the subject_token to be "any other format that is understood by the TTS". This enables a TTS to directly accept a Txn-JAG issued by the upstream AS as the subject token in a Txn-Token request.
 
@@ -197,7 +199,7 @@ This section defines the requests and responses for Mode A as described in Secti
 Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I to obtain a Txn-JAG that can be used at the AS in Trust Domain II.
 
 #### Txn-JAG Request
-The parameters for the Txn-JAG request build upon the definitions in Section 2.3.1 of {{?I-D.ietf-oauth-identity-chaining}} and {{RFC8693}}. While other parameters remain consistent with these specifications, the following specific requirements apply:
+The parameters for the Txn-JAG request build upon the definitions in Section 2.3.1 of {{?I-D.ietf-oauth-identity-chaining}} and {{RFC8693}}. While claim types remain consistent with these specifications, the values of certain claims are required as follows:
 
 **resource**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;**REQUIRED** if audience is not set. It MUST be the URI of the AS in Trust Domain II.
@@ -223,7 +225,7 @@ Workload A in Trust Domain I uses the Txn-JAG obtained from the AS in Trust Doma
 
 #### Access Token Request
 
-The parameters described in Section 2.4.1 of {{?I-D.ietf-oauth-identity-chaining}} apply here with the following restrictions:
+The parameters described in Section 2.4.1 of {{?I-D.ietf-oauth-identity-chaining}} apply here with the following requirements:
 
 **assertion**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;**REQUIRED.** The Txn-JAG returned by the AS in Trust Domain I.
@@ -255,6 +257,8 @@ The processing rules and response formats defined in Sections 12.3 and 12.4 of {
 
 * The TTS in trust domain II SHOULD transcribe the workflow-related claims from the subject token to the claims of the issued Txn-Token.  See Claims Transcription (Section 4.3).
 
+Domain II will proceed to use the obtained Txn-Token II normally, as defined in {{?I-D.ietf-oauth-transaction-tokens}}.
+
 ## Mode B: Direct Txn-Token Exchange
 
 This section defines the requests and responses for Mode B as described in Section 3.2.
@@ -273,13 +277,13 @@ The request follows the same format as defined in Section 4.1.1.1, except for th
 
 
 #### Txn-JAG Response
-The processing rules and response format are identical to those described in Section 4.1.1.2, with the exception that the aud claim in the issued Txn-JAG MUST identify the TTS of Trust Domain II.
+The processing rules and response format are identical to those described in Section 4.1.1.2, with the exception that the `aud` claim in the issued Txn-JAG MUST identify the TTS of Trust Domain II.
 
 #### Txn-JAG Transmission Methods
 
-When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG in a dedicated HTTP header named Txn-JAG. This dedicated header avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
+When a Txn-JAG is presented directly to an endpoint, the workload MUST include the Txn-JAG parameter in HTTP named `Txn-JAG`. This dedicated parameter avoids ambiguity with the Authorization header, which is conventionally associated with access tokens per {{RFC6750}}.
 
-
+In {{RFC7523}} and {{?I-D.ietf-oauth-identity-chaining}}, the JAG is carried by the `assertion` field in HTTP, but it is used to request an access token. These drafts have not listed the usage of `assertion` field to request a Txn-Token, as described in this document. As a result, this document has designed a new HTTP parameter `Txn-JAG`. But alternatively, it could also be transmitted as a HTTP header field. The most appropriate design should subject to Working Group's discretion.
 
 ### Token Exchange for Txn-Token
 Endpoint B performs a token exchange with the TTS in Trust Domain II to obtain a local Txn-Token in Trust Domain II, using the Txn-JAG as the subject_token.
@@ -305,20 +309,21 @@ The transcription of workflow-related claims from the subject token (the Txn-JAG
 Claims transcription across trust domains SHOULD ensure that the workflow-related claims are preserved for auditability and accountability. This builds upon the principles defined in Section 2.5 of {{?I-D.ietf-oauth-identity-chaining}}. Specific transcription rules for workflow-related claims are defined as follows:
 
 
-* Preserving the txn claim. The txn claim serves as the immutable unique identifier for the cross-domain transaction. Both the AS and TTS SHOULD NOT modify or regenerate the txn value during transcription. It SHOULD be copied from the subject_token to the issued token to ensure auditability and accountability across different domains. To avoid collisions without a centralized namespace, the txn value can be generated as a high-entropy string or prefixed with a domain identifier.
+* Preserving the `txn` claim. The `txn` claim serves as the immutable unique identifier for the cross-domain transaction. Both the AS and TTS SHOULD NOT modify or regenerate the `txn` value during transcription. It SHOULD be copied from the subject_token to the issued token to ensure auditability and accountability across different domains. To avoid collisions without a centralized namespace, the `txn` value can be generated as a high-entropy string or prefixed with a domain identifier.
 
-* Evolving the req_wl claim. The req_wl SHOULD identify all the workloads that requested or exchanged tokens throughout the cross-domain transaction. Specifically, the AS in Trust Domain I SHOULD add the identifier of Workload A to the req_wl in the issued Txn-JAG. The TTS in Trust Domain II SHOULD add the identifier of Endpoint B to req_wl in the issued Txn-Token in Trust Domain II. This ensures that every point where claims may change is recorded, providing a trail of how the claims reached its current state.
+* Evolving the `req_wl` claim. The `req_wl` SHOULD identify all the workloads that requested or exchanged tokens throughout the cross-domain transaction. Specifically, the AS in Trust Domain I SHOULD add the identifier of Workload A to the `req_wl` in the issued Txn-JAG. The TTS in Trust Domain II SHOULD add the identifier of Endpoint B to `req_wl` in the issued Txn-Token in Trust Domain II. This ensures that every point where claims may change is recorded, providing a trail of how the claims reached its current state. 
 
-* Data Minimization. The AS in Trust Domain I MAY apply security and privacy strategies to workflow-related claims when issuing the Txn-JAG. Such measures include but not limited to Removal and Encryption.
+* Data Minimization. The processing or `req_wl` may exist privacy concerns that exposing topology of Domain I. The AS in Trust Domain I MAY apply security and privacy strategies to workflow-related claims when issuing the Txn-JAG. Such measures include but not limited to Removal.
 
-    * Removal. Claims related to completed tasks or not required by downstream trust domains SHOULD be removed.
+    * Removal. Claims related to completed tasks or not required by downstream trust domains COULD be removed or redacted. If certain claims are required for end-to-end auditing, Domain I MAY take proper logs before removal.
 
-    * Encryption. If certain claims (e.g., specific user PII or the complete req_wl) are required for end-to-end auditing but must remain invisible to the entities in downstream trust domains, the AS in Trust Domain I MAY encrypt these specific claims, and ensure that only a designated auditor possessing the corresponding decryption key can access the plaintext. Mechanisms for key management and decryption are out of scope of this document.
+# Operational Considerations {#ops}
 
+* AS and TTS may be operated by the same service, or not. In the former case, some procedures listed in Section 3 and 4 could be merged.
 
-# Security Considerations
+# Security and Privacy Considerations
 
-TODO Security
+* As Domain I and II may have public Internet in between, the correct and confidential passing of `tctx` and `rctx` may require encryption or masking technique.
 
 
 # IANA Considerations
@@ -512,7 +517,7 @@ grant_type=urn:ietf:params:oauth:grant-type:token-exchange
 ```
 *Figure 11: Txn-JAG Request*
 
-The AS in Domain I transcribes the claims. In the issued Txn-JAG, the aud is set to the Domain II TTS.
+The AS in Domain I transcribes the claims. In the issued Txn-JAG, the `aud` is set to the Domain II TTS.
 
 ```text
 {
