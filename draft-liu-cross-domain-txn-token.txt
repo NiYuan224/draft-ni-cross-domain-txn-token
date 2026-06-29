@@ -703,7 +703,7 @@ A.1.2.  Access Token Request and Response
    "issued_token_type":"urn:ietf:params:oauth:token-type:jwt",
    "expires_in":60 } ``` _Figure 8: Access Token Response_
 
-   text { "iat": 1777724890, "exp": 1777728490, "aud":
+   { "iat": 1777724890, "exp": 1777728490, "aud":
    "https://endpointb.domain2.example", "iss":
    "https://as.domain2.example", "sub": "john.doe.123", "txn":
    "97053963-771d-49cc-a4e3-20aad399c312", "req_wl":
