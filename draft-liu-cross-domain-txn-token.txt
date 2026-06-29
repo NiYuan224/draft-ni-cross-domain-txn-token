@@ -558,9 +558,9 @@ Table of Contents
 
 5.1.  In-Vehicle Intelligence and Third-Party Service Ecosystems
 
-   An in-vehicle agent often orchestrates high-level tasks on behalf of
-   the vehicle owner that require invocation of external, third-party
-   service providers.  For instance, when a user requests an automated
+   An in-vehicle agent often orchestrates tasks on behalf of the vehicle
+   owner that require invocation of external, third-party service
+   providers.  For instance, when a user requests an automated
    reservation for a charging pile at a destination, the in-vehicle
    agent generates an initial Txn-Token containing the workflow-related
    claims, such as the arrival time, destination, charging time, and
