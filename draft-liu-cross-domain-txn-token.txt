@@ -80,6 +80,7 @@ Table of Contents
      4.3.  Claims Transcription
    5.  Use Cases
      5.1.  In-Vehicle Intelligence and Third-Party Service Ecosystems
+     5.2.  On-Premises Service and Subscription SaaS Collaboration
    6.  Operational Considerations
    7.  Security and Privacy Considerations
    8.  IANA Considerations
@@ -569,6 +570,16 @@ Table of Contents
    in-vehicle agent, passing through the navigation agent and the
    charging service provider, and finally terminating at the payment
    platform.
+
+5.2.  On-Premises Service and Subscription SaaS Collaboration
+
+   An on-premises enterprise service initiates a core workflow by
+   performing local data preprocessing and generating an initial Txn-
+   Token.  With the cross-domain Txn-Token mechanism defined in this
+   document, this token can be securely propagated from the enterprise
+   domain to a subscription-based cloud SaaS platform.  The mechanism
+   ensures cryptographically verifiable, end-to-end accountability and
+   auditability.
 
 6.  Operational Considerations
 

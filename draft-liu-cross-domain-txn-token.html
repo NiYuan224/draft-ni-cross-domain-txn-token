@@ -1203,6 +1203,9 @@ svg {
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-in-vehicle-intelligence-and" class="internal xref">In-Vehicle Intelligence and Third-Party Service Ecosystems</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-on-premises-service-and-sub" class="internal xref">On-Premises Service and Subscription SaaS Collaboration</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
@@ -1641,6 +1644,14 @@ platforms, etc.). As illustrated in <span>[<a href="#I-D.kiliram-agent-trust-aut
         </h3>
 <p id="section-5.1-1">An in-vehicle agent often orchestrates high-level tasks on behalf of the vehicle owner that require invocation of external, third-party service providers. For instance, when a user requests an automated reservation for a charging pile at a destination, the in-vehicle agent generates an initial Txn-Token containing the workflow-related claims,
 such as the arrival time, destination, charging time, and user preference, etc. With the cross-domain Txn-Token mechanism defined in this document，the above workflow-related claims can be securely propagated along a sequential chain: originating from the in-vehicle agent, passing through the navigation agent and the charging service provider, and finally terminating at the payment platform.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="on-premises-service-and-subscription-saas-collaboration">
+<section id="section-5.2">
+        <h3 id="name-on-premises-service-and-sub">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-on-premises-service-and-sub" class="section-name selfRef">On-Premises Service and Subscription SaaS Collaboration</a>
+        </h3>
+<p id="section-5.2-1">An on-premises enterprise service initiates a core workflow by performing local data preprocessing and generating an initial Txn-Token. With the cross-domain Txn-Token mechanism defined in this document, this token can be securely propagated from the enterprise domain to a subscription-based cloud SaaS platform. The mechanism ensures cryptographically verifiable, end‑to‑end accountability and auditability.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
