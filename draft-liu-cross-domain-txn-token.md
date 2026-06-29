@@ -9,7 +9,8 @@ date:
 consensus: true
 v: 3
 # area: AREA
-# workgroup: WG Working Group
+# workgroup: OAuth Working Group
+
 keyword:
   - Identity Chaining
   - Transaction Tokens
@@ -18,7 +19,7 @@ keyword:
 venue:
 #  group: OAuth
 #  type: Working Group
-#  mail: WG@example.com
+#  mail: oauth@ietf.org
 #  arch: https://example.com/WG
   github: "NiYuan224/draft-liu-cross-domain-txn-token"
   latest: "https://NiYuan224.github.io/draft-liu-cross-domain-txn-token/draft-liu-cross-domain-txn-token.html"
