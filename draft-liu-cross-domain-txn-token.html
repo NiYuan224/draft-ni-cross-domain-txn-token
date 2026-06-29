@@ -1731,8 +1731,8 @@ platforms, etc.). As illustrated in <span>[<a href="#I-D.kiliram-agent-trust-aut
 <a href="#appendix-A.1.1" class="section-number selfRef">A.1.1. </a><a href="#name-txn-jag-request-and-respons" class="section-name selfRef">Txn-JAG Request and Response</a>
           </h4>
 <p id="appendix-A.1.1-1">Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I (https://as.domain1.example/auth) to receive a Txn-JAG targeted at the AS in trust domain II (https://as.domain2.example/auth).<a href="#appendix-A.1.1-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1.1-2">```text
-POST /auth HTTP/1.1
+<p id="appendix-A.1.1-2">```
+   POST /auth HTTP/1.1
    Host: as.domain1.example
    Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.1.1-2" class="pilcrow">¶</a></p>
 <p id="appendix-A.1.1-3">grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
@@ -1742,7 +1742,7 @@ POST /auth HTTP/1.1
 ```
 <em>Figure 3: Txn-JAG Request</em><a href="#appendix-A.1.1-3" class="pilcrow">¶</a></p>
 <p id="appendix-A.1.1-4">The subject_token in the prior request is the Txn-Token issued by the TTS in Trust Domain I, and the decoded JWT payload is shown here.<a href="#appendix-A.1.1-4" class="pilcrow">¶</a></p>
-<p id="appendix-A.1.1-5"><code>text
+<p id="appendix-A.1.1-5"><code>
 {
     "iat": 1777724800,
     "exp": 1777724860,
@@ -1769,7 +1769,7 @@ POST /auth HTTP/1.1
 </code>
             <em>Figure 4: Txn-Token-I Payload</em><a href="#appendix-A.1.1-5" class="pilcrow">¶</a></p>
 <p id="appendix-A.1.1-6">The <code>access_token</code> parameter of the token exchange response contains the Txn-JAG requested by Workload A.<a href="#appendix-A.1.1-6" class="pilcrow">¶</a></p>
-<p id="appendix-A.1.1-7">```text
+<p id="appendix-A.1.1-7">```
 HTTP/1.1 200 OK
    Content-Type: application/json
    Cache-Control: no-cache, no-store<a href="#appendix-A.1.1-7" class="pilcrow">¶</a></p>
@@ -1781,7 +1781,7 @@ HTTP/1.1 200 OK
    }
 ```
 <em>Figure 5: Txn-JAG Response</em><a href="#appendix-A.1.1-8" class="pilcrow">¶</a></p>
-<p id="appendix-A.1.1-9"><code>text
+<p id="appendix-A.1.1-9"><code>
 {
   "iat": 1777724830,
   "exp": 1777728430,
@@ -1813,7 +1813,7 @@ HTTP/1.1 200 OK
 <a href="#appendix-A.1.2" class="section-number selfRef">A.1.2. </a><a href="#name-access-token-request-and-re" class="section-name selfRef">Access Token Request and Response</a>
           </h4>
 <p id="appendix-A.1.2-1">Workload A presents the Txn-JAG as an assertion to the AS of Trust Domain II to request an access token.<a href="#appendix-A.1.2-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1.2-2">```text
+<p id="appendix-A.1.2-2">```
     POST /auth HTTP/1.1
     Host: as.domain2.example
     Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.1.2-2" class="pilcrow">¶</a></p>
@@ -1823,7 +1823,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer
 &amp;assertion=[Encoded Txn-JAG] ``` *Figure 7: Access Token Request*
 </pre><a href="#appendix-A.1.2-3" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A.1.2-4">```text
+<p id="appendix-A.1.2-4">```
    HTTP/1.1 200 OK
    Content-Type: application/json
    Cache-Control: no-cache, no-store<a href="#appendix-A.1.2-4" class="pilcrow">¶</a></p>
@@ -1866,7 +1866,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer
 <a href="#appendix-A.1.3" class="section-number selfRef">A.1.3. </a><a href="#name-txn-token-request-and-respo" class="section-name selfRef">Txn-Token Request and Response</a>
           </h4>
 <p id="appendix-A.1.3-1">Upon receiving the access token, Workload A in Trust Domain II exchanges it for a local Txn-Token from its TTS. The payload of the Txn-Token in Trust Domain II is shown below.<a href="#appendix-A.1.3-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1.3-2"><code>text
+<p id="appendix-A.1.3-2"><code>
 {
     "iat": 1777724900,
     "exp": 1777724960,
@@ -1908,7 +1908,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer
 <a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-txn-jag-request-and-response" class="section-name selfRef">Txn-JAG Request and Response</a>
           </h4>
 <p id="appendix-A.2.1-1">Workload A in Trust Domain I exchanges its local Txn-Token for a Txn-JAG, where the resource is set to the TTS of Domain II.<a href="#appendix-A.2.1-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.2.1-2">```text
+<p id="appendix-A.2.1-2">```
 POST /auth HTTP/1.1
 Host: as.domain1.example
 Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.2.1-2" class="pilcrow">¶</a></p>
@@ -1919,7 +1919,7 @@ Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.2.1-2" class
 ```
 <em>Figure 11: Txn-JAG Request</em><a href="#appendix-A.2.1-3" class="pilcrow">¶</a></p>
 <p id="appendix-A.2.1-4">The AS in Domain I transcribes the claims. In the issued Txn-JAG, the <code>aud</code> is set to the Domain II TTS.<a href="#appendix-A.2.1-4" class="pilcrow">¶</a></p>
-<p id="appendix-A.2.1-5"><code>text
+<p id="appendix-A.2.1-5"><code>
 {
   "iat": 1777724830,
   "exp": 1777728430,
@@ -1954,7 +1954,7 @@ Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.2.1-2" class
 <a href="#appendix-A.2.2" class="section-number selfRef">A.2.2. </a><a href="#name-txn-token-request-and-respon" class="section-name selfRef">Txn-Token Request and Response</a>
           </h4>
 <p id="appendix-A.2.2-1">Workload A presents the Txn-JAG directly to Endpoint B. Endpoint B then uses this Txn-JAG as the <code>subject_token</code> to request a local Txn-Token from the TTS in Trust Domain II.<a href="#appendix-A.2.2-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.2.2-2">```text
+<p id="appendix-A.2.2-2">```
 POST /token HTTP/1.1
 Host: tts.domain2.example
 Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.2.2-2" class="pilcrow">¶</a></p>
@@ -1966,7 +1966,7 @@ Content-Type: application/x-www-form-urlencoded<a href="#appendix-A.2.2-2" class
 ```
 <em>Figure 13: Txn-Token Request</em><a href="#appendix-A.2.2-3" class="pilcrow">¶</a></p>
 <p id="appendix-A.2.2-4">The TTS validates the cross-domain Txn-JAG based on the pre-established trust relationship with AS in Trust Domain I. It transcribes the claims and evolves the <code>req_wl</code> to include Endpoint B.<a href="#appendix-A.2.2-4" class="pilcrow">¶</a></p>
-<p id="appendix-A.2.2-5"><code>text
+<p id="appendix-A.2.2-5"><code>
 {
   "iat": 1777724900,
   "exp": 1777724960,

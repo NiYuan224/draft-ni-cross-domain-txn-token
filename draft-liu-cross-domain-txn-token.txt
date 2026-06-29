@@ -638,7 +638,7 @@ A.1.1.  Txn-JAG Request and Response
    targeted at the AS in trust domain II (https://as.domain2.example/
    auth).
 
-   ```text POST /auth HTTP/1.1 Host: as.domain1.example Content-Type:
+   ``` POST /auth HTTP/1.1 Host: as.domain1.example Content-Type:
    application/x-www-form-urlencoded
 
    grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
@@ -650,7 +650,7 @@ A.1.1.  Txn-JAG Request and Response
    The subject_token in the prior request is the Txn-Token issued by the
    TTS in Trust Domain I, and the decoded JWT payload is shown here.
 
-   text { "iat": 1777724800, "exp": 1777724860, "aud":
+   { "iat": 1777724800, "exp": 1777724860, "aud":
    "https://domain1.example", "iss": "https://tts.domain1.example",
    "txn": "97053963-771d-49cc-a4e3-20aad399c312", "sub":
    "john_doe@a.org", "req_wl": "apigateway.domain1.example", "rctx": {
@@ -662,14 +662,14 @@ A.1.1.  Txn-JAG Request and Response
    The access_token parameter of the token exchange response contains
    the Txn-JAG requested by Workload A.
 
-   ```text HTTP/1.1 200 OK Content-Type: application/json Cache-Control:
-   no-cache, no-store
+   ``` HTTP/1.1 200 OK Content-Type: application/json Cache-Control: no-
+   cache, no-store
 
    { "access_token":[Encoded Txn-JAG], "token_type":"N_A",
    "issued_token_type":"urn:ietf:params:oauth:token-type:jwt",
    "expires_in":60 } ``` _Figure 5: Txn-JAG Response_
 
-   text { "iat": 1777724830, "exp": 1777728430, "aud":
+   { "iat": 1777724830, "exp": 1777728430, "aud":
    "https://as.domain2.example/auth", "iss":
    "https://as.domain1.example", "sub": "john_doe@a.org", "txn":
    "97053963-771d-49cc-a4e3-20aad399c312", "req_wl":
@@ -690,14 +690,14 @@ A.1.2.  Access Token Request and Response
    Workload A presents the Txn-JAG as an assertion to the AS of Trust
    Domain II to request an access token.
 
-   ```text POST /auth HTTP/1.1 Host: as.domain2.example Content-Type:
+   ``` POST /auth HTTP/1.1 Host: as.domain2.example Content-Type:
    application/x-www-form-urlencoded
 
    grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer
    &assertion=[Encoded Txn-JAG] ``` *Figure 7: Access Token Request*
 
-   ```text HTTP/1.1 200 OK Content-Type: application/json Cache-Control:
-   no-cache, no-store
+   ``` HTTP/1.1 200 OK Content-Type: application/json Cache-Control: no-
+   cache, no-store
 
    { "access_token":"ey...", "token_type":"N_A",
    "issued_token_type":"urn:ietf:params:oauth:token-type:jwt",
@@ -719,7 +719,7 @@ A.1.3.  Txn-Token Request and Response
    exchanges it for a local Txn-Token from its TTS.  The payload of the
    Txn-Token in Trust Domain II is shown below.
 
-   text { "iat": 1777724900, "exp": 1777724960, "iss":
+   { "iat": 1777724900, "exp": 1777724960, "iss":
    "https://tts.domain2.example", "aud": "https://domain2.example",
    "txn": "97053963-771d-49cc-a4e3-20aad399c312", "sub":
    "john_doe@a.org", "req_wl":
@@ -740,7 +740,7 @@ A.2.1.  Txn-JAG Request and Response
    Workload A in Trust Domain I exchanges its local Txn-Token for a Txn-
    JAG, where the resource is set to the TTS of Domain II.
 
-   ```text POST /auth HTTP/1.1 Host: as.domain1.example Content-Type:
+   ``` POST /auth HTTP/1.1 Host: as.domain1.example Content-Type:
    application/x-www-form-urlencoded
 
    grant_type=urn:ietf:params:oauth:grant-type:token-exchange
@@ -752,7 +752,7 @@ A.2.1.  Txn-JAG Request and Response
    The AS in Domain I transcribes the claims.  In the issued Txn-JAG,
    the aud is set to the Domain II TTS.
 
-   text { "iat": 1777724830, "exp": 1777728430, "aud":
+   { "iat": 1777724830, "exp": 1777728430, "aud":
    "https://tts.domain2.example", "iss": "https://as.domain1.example",
    "sub": "john_doe@a.org", "txn": "97053963-771d-49cc-
    a4e3-20aad399c312", "req_wl": "workload_a", "rctx": { "req_ip":
@@ -771,7 +771,7 @@ A.2.2.  Txn-Token Request and Response
    then uses this Txn-JAG as the subject_token to request a local Txn-
    Token from the TTS in Trust Domain II.
 
-   ```text POST /token HTTP/1.1 Host: tts.domain2.example Content-Type:
+   ``` POST /token HTTP/1.1 Host: tts.domain2.example Content-Type:
    application/x-www-form-urlencoded
 
    grant_type=urn:ietf:params:oauth:grant-type:token-exchange
@@ -784,7 +784,7 @@ A.2.2.  Txn-Token Request and Response
    established trust relationship with AS in Trust Domain I.  It
    transcribes the claims and evolves the req_wl to include Endpoint B.
 
-   text { "iat": 1777724900, "exp": 1777724960, "iss":
+   { "iat": 1777724900, "exp": 1777724960, "iss":
    "https://tts.domain2.example", "aud": "https://domain2.example",
    "txn": "97053963-771d-49cc-a4e3-20aad399c312", "sub":
    "john_doe@a.org", "req_wl": "workload_a,endpoint_b", "rctx": {
