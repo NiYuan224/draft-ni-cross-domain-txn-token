@@ -202,7 +202,7 @@ This section defines the requests and responses for Mode A as described in {{mod
 Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I to obtain a Txn-JAG that can be used at the AS in Trust Domain II.
 
 #### Txn-JAG Request
-The parameters for the Txn-JAG request build upon the definitions in Section 2.3.1 of {{?I-D.ietf-oauth-identity-chaining}} and {{RFC8693}}. While claim types remain consistent with these specifications, the values of certain claims are required as follows:
+The parameters for the Txn-JAG request build upon the definitions in Section 2.3.1 of {{?I-D.ietf-oauth-identity-chaining}} and {{RFC8693}}. While parameter types remain consistent with these specifications, the values of certain parameters are required as follows:
 
 **resource**<br>
 **REQUIRED** if audience is not set. It MUST be the URI of the AS in Trust Domain II.
@@ -270,7 +270,7 @@ This section defines the requests and responses for Mode B as described in {{mod
 Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I to obtain a Txn-JAG that can be used with the TTS in Trust Domain II.
 
 #### Txn-JAG Request
-The request follows the same format as defined in {{exchangeforJAG}}, except for the resource or audience claim:
+The request follows the same format as defined in {{exchangeforJAG}}, except for the resource or audience parameter:
 
 **resource**<br>
 **REQUIRED.** if audience is not set. It MUST be the URI of the TTS in Trust Domain II.
