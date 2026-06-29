@@ -131,19 +131,19 @@ This mode follows the classic identity chaining workflow {{?I-D.ietf-oauth-ident
 
 *Figure 1: Indirect Txn-Token Exchange*
 
-(1) Workload A in Trust Domain I sends a token exchange request to the local AS to exchange the local Txn-Token for a cross-domain Txn-JAG. See Section 4.1.1 for the request format.
+(1) Workload A in Trust Domain I sends a token exchange request to the local AS to exchange the local Txn-Token for a cross-domain Txn-JAG. See {{#exchangeforJAG}} for the request format.
 
-(2) The AS in Trust Domain I validates the request, generates and responds with the Txn-JAG, transcribing the workflow-related claims from the local Txn-Token into the Txn-JAG's claims. See Section 4.1.2 for the response format.
+(2) The AS in Trust Domain I validates the request, generates and responds with the Txn-JAG, transcribing the workflow-related claims from the local Txn-Token into the Txn-JAG's claims. See {{#exchangeforJAG}} for the response format.
 
-(3) Workload A in Trust Domain I presents the Txn-JAG to the AS of Trust Domain II to request an access token. See Section 4.2.1 for the request format.
+(3) Workload A in Trust Domain I presents the Txn-JAG to the AS of Trust Domain II to request an access token. See {{#exchangeforAT}} for the request format.
 
-(4) The AS of Trust Domain II validates the Txn-JAG and responds with an access token, transcribing the workflow-related claims from the Txn-JAG into the access token. See Section 4.2.2 for the response format.
+(4) The AS of Trust Domain II validates the Txn-JAG and responds with an access token, transcribing the workflow-related claims from the Txn-JAG into the access token. See {{#exchangeforAT}} for the response format.
 
 (5) Workload A in Trust Domain I invokes Endpoint B of Trust Domain II with the received access token.
 
-(6) Endpoint B presents the inbound access token to the TTS of Trust Domain II to request a Txn-Token. See Section 4.3.1 for the request format.
+(6) Endpoint B presents the inbound access token to the TTS of Trust Domain II to request a Txn-Token. See {{#exchangeforTxn}} for the request format.
 
-(7) The TTS of Trust Domain II mints a local Txn-Token, transcribing the workflow-related claims from the access token into the new Txn-Token. See Section 4.3.2 for the response format.
+(7) The TTS of Trust Domain II mints a local Txn-Token, transcribing the workflow-related claims from the access token into the new Txn-Token. See {{#exchangeforTxn}} for the response format.
 
 ## Mode B: Direct Txn-Token Exchange
 While Mode A provides a straightforward integration of Identity Chaining procedures with Transaction Tokens procedures, which does not create protocol-level changes, it introduces multiple cross-domain round trips that can significantly increase latency. As illustrated in Figure 1, steps (3) through (5) require at least three cross-domain round-trips: presenting the Txn-JAG to the downstream AS to obtain an access token, invoking the target endpoint with that token, and subsequently exchanging it for a local Txn-Token. In distributed and high-throughput environments, this operational overhead can become prohibitive.
@@ -196,7 +196,7 @@ The formats of requests and responses included in Section 3 are detailed in this
 
 This section defines the requests and responses for Mode A as described in Section 3.1.
 
-### Token Exchange for Txn-JAG
+### Token Exchange for Txn-JAG  {#exchangeforJAG}
 Workload A in Trust Domain I performs token exchange with the AS in Trust Domain I to obtain a Txn-JAG that can be used at the AS in Trust Domain II.
 
 #### Txn-JAG Request
@@ -220,7 +220,7 @@ The processing rules and response format defined in Sections 2.3.2 and 2.3.3 of 
 
 * The AS in Trust Domain I SHOULD transcribe the workflow-related claims from the Txn-Token to the Txn-JAG's claims. During this transcription, The AS in Trust Domain I MAY add, remove, or change the claims. See Claims Transcription (Section 4.3).
 
-### Cross-Domain Assertion
+### Cross-Domain Assertion {#exchangeforAT}
 
 Workload A in Trust Domain I uses the Txn-JAG obtained from the AS in Trust Domain I as an assertion to request an access token from the AS in Trust Domain II.
 
@@ -237,7 +237,7 @@ The processing rules and response formats defined in Sections 2.4.2 and 2.4.3 of
 * The AS in trust domain II SHOULD transcribe the workflow-related claims from the Txn-JAG to the access token's claims. See Claims Transcription (Section 4.3).
 
 
-### Token Exchange for Txn-Token
+### Token Exchange for Txn-Token {#exchangeforTxn}
 
 Workload A in Trust Domain I performs a token exchange with the TTS in Trust Domain II to obtain a local Txn-Token in Trust Domain II.
 
