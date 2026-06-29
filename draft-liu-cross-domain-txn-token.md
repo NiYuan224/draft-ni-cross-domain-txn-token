@@ -26,14 +26,16 @@ venue:
 
 author:
  -
+  name: Chunchi Peter Liu
+  organization: Huawei
+  email: liuchunchi@huawei.com
+
+ -
   name: Yuan Ni
   organization: Huawei
   email: niyuan1@huawei.com
 
- -
-  name: Chunchi Peter Liu
-  organization: Huawei
-  email: liuchunchi@huawei.com
+
 
 normative:
   RFC2119:
@@ -324,7 +326,7 @@ Claims transcription across trust domains SHOULD ensure that the workflow-relate
 
 # Security and Privacy Considerations
 
-* As Domain I and II may have public Internet in between, the correct and confidential passing of `tctx` and `rctx` may require encryption or masking technique.
+* As Domain I and II may have public Internet in between, the correct and confidential passing of `tctx` and `rctx` may require encryption or masking techniques.
 
 
 # IANA Considerations
