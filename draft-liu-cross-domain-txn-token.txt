@@ -5,7 +5,7 @@
 Network Working Group                                          C. P. Liu
 Internet-Draft                                                     Y. Ni
 Intended status: Informational                                    Huawei
-Expires: 31 December 2026                                   29 June 2026
+Expires: 1 January 2027                                     30 June 2026
 
 
                     Cross-domain Transaction Tokens
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 December 2026.
+   This Internet-Draft will expire on 1 January 2027.
 
 Copyright Notice
 
@@ -78,15 +78,12 @@ Table of Contents
        4.2.1.  Token Exchange for Txn-JAG
        4.2.2.  Token Exchange for Txn-Token
      4.3.  Claims Transcription
-   5.  Use Cases
-     5.1.  In-Vehicle Intelligence and Third-Party Service Ecosystems
-     5.2.  On-Premises Service and Subscription SaaS Collaboration
-   6.  Operational Considerations
-   7.  Security and Privacy Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   5.  Operational Considerations
+   6.  Security and Privacy Considerations
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Examples
      A.1.  Example Mode A: Indirect Txn-Token Exchange
        A.1.1.  Txn-JAG Request and Response
@@ -554,52 +551,25 @@ Table of Contents
          certain claims are required for end-to-end auditing, Domain I
          MAY take proper logs before removal.
 
-5.  Use Cases
-
-5.1.  In-Vehicle Intelligence and Third-Party Service Ecosystems
-
-   An in-vehicle agent often orchestrates tasks on behalf of the vehicle
-   owner that require invocation of external, third-party service
-   providers.  For instance, when a user requests an automated
-   reservation for a charging pile at a destination, the in-vehicle
-   agent generates an initial Txn-Token containing the workflow-related
-   claims, such as the arrival time, destination, charging time, and
-   user preference, etc.  With the cross-domain Txn-Token mechanism
-   defined in this document，the above workflow-related claims can be
-   securely propagated along a sequential chain: originating from the
-   in-vehicle agent, passing through the navigation agent and the
-   charging service provider, and finally terminating at the payment
-   platform.
-
-5.2.  On-Premises Service and Subscription SaaS Collaboration
-
-   An on-premises enterprise service initiates a core workflow by
-   performing local data preprocessing and generating an initial Txn-
-   Token.  With the cross-domain Txn-Token mechanism defined in this
-   document, this token can be securely propagated from the enterprise
-   domain to a subscription-based cloud SaaS platform.  The mechanism
-   ensures cryptographically verifiable, end-to-end accountability and
-   auditability.
-
-6.  Operational Considerations
+5.  Operational Considerations
 
    *  AS and TTS may be operated by the same service, or not.  In the
       former case, some procedures listed in Section 3 and Section 4
       could be merged.
 
-7.  Security and Privacy Considerations
+6.  Security and Privacy Considerations
 
    *  As Domain I and II may have public Internet in between, the
       correct and confidential passing of tctx and rctx may require
       encryption or masking techniques.
 
-8.  IANA Considerations
+7.  IANA Considerations
 
    This document has no IANA actions.
 
-9.  References
+8.  References
 
-9.1.  Normative References
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -629,7 +599,7 @@ Table of Contents
               DOI 10.17487/RFC8693, January 2020,
               <https://www.rfc-editor.org/rfc/rfc8693>.
 
-9.2.  Informative References
+8.2.  Informative References
 
    [I-D.ietf-oauth-identity-chaining]
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
