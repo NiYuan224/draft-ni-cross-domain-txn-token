@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-30T02:36:21.292599+00:00",
+  "timestamp": "2026-07-02T02:31:37.956820+00:00",
   "repo": "NiYuan224/draft-liu-cross-domain-txn-token",
   "labels": [
     {
@@ -105,25 +105,33 @@
       "id": "PR_kwDOS71yHc7rReY_",
       "title": "edits",
       "url": "https://github.com/NiYuan224/draft-liu-cross-domain-txn-token/pull/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "liuchunchi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-06-27T10:08:11Z",
-      "updatedAt": "2026-06-27T10:08:12Z",
+      "updatedAt": "2026-07-01T01:54:05Z",
       "baseRepository": "NiYuan224/draft-liu-cross-domain-txn-token",
       "baseRefName": "main",
       "baseRefOid": "b34f95e33e3f55c1c9142b17b65016711294948f",
       "headRepository": "NiYuan224/draft-liu-cross-domain-txn-token",
       "headRefName": "pcl-changes",
       "headRefOid": "390f41d46672f02383d19707365b14902ee06a1a",
-      "closedAt": null,
+      "closedAt": "2026-07-01T01:53:19Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "NiYuan224",
+          "authorAssociation": "OWNER",
+          "body": "already revised",
+          "createdAt": "2026-07-01T01:54:05Z",
+          "updatedAt": "2026-07-01T01:54:05Z"
+        }
+      ],
       "reviews": []
     }
   ]
